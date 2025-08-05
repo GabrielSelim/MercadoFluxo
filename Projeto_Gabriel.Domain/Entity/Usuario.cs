@@ -1,4 +1,5 @@
 ﻿using Projeto_Gabriel.Domain.Entity.Base;
+using Projeto_Gabriel.Domain.Entity.Mercadinho;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -27,5 +28,12 @@ namespace Projeto_Gabriel.Domain.Entity
 
         [Column("role")]
         public string Role { get; set; } = "User";
+
+
+
+        // Navegação: Um usuário pode realizar várias vendas e movimentações de caixa
+        public virtual ICollection<Venda> Vendas { get; set; }
+        public virtual ICollection<MovimentacaoCaixa> MovimentacoesCaixa { get; set; }
+
     }
 }

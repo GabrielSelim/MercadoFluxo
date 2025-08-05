@@ -14,7 +14,5 @@ namespace Projeto_Gabriel.Bussines
         public string GetContentType(string fileName);
 
         public List<FIleDetailDbo> ListFiles();
-
-        Task<List<CartaPokemonDbo>> SaveImagesToDatabase(List<IFormFile> files);
     }
 }

@@ -114,35 +114,5 @@ namespace Projeto_Gabriel.Controllers
                 return StatusCode(500, $"Erro interno do servidor: {ex.Message}");
             }
         }
-
-        [HttpPost("salvarImagemPokemon")]
-        [Authorize(Policy = "AdminOnly")]
-        [ProducesResponseType(200, Type = typeof(List<CartaPokemonDbo>))]
-        [ProducesResponseType(typeof(ErrorResponse), 400)]
-        [SwaggerResponseExample(400, typeof(ErrorResponseExample))]
-        [ProducesResponseType(typeof(ErrorResponse), 401)]
-        [SwaggerResponseExample(401, typeof(ErrorResponseExample))]
-        [ProducesResponseType(typeof(ErrorResponse), 404)]
-        [SwaggerResponseExample(404, typeof(ErrorResponseExample))]
-        [ProducesResponseType(typeof(ErrorResponse), 500)]
-        [SwaggerResponseExample(500, typeof(ErrorResponseExample))]
-        [TypeFilter(typeof(HyperMediaFilter))]
-        [Produces("application/json")]
-        public async Task<IActionResult> SalvarImagemPokemon([FromForm] List<IFormFile> files)
-         {
-            try
-            {
-                var result = await _fileBusiness.SaveImagesToDatabase(files);
-                return Ok(result);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Erro interno do servidor: {ex.Message}");
-            }
-        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Projeto_Gabriel.Application.Dto;
-using Projeto_Gabriel.Domain.RepositoryInterface;
 
 namespace Projeto_Gabriel.Bussines.Implementacoes
 {
@@ -8,12 +7,10 @@ namespace Projeto_Gabriel.Bussines.Implementacoes
     {
         private readonly string _basePath;
         private readonly IHttpContextAccessor _context;
-        private readonly ICartaPokemonRepository _cartaPokemonRepository;
 
-        public FileBusinessImplementacao(IHttpContextAccessor context, ICartaPokemonRepository cartaPokemonRepository)
+        public FileBusinessImplementacao(IHttpContextAccessor context)
         {
             _context = context;
-            _cartaPokemonRepository = cartaPokemonRepository;
             _basePath = Path.Combine(Directory.GetCurrentDirectory(), "UploadDir");
 
 
@@ -119,58 +116,5 @@ namespace Projeto_Gabriel.Bussines.Implementacoes
 
             return files;
         }
-
-        public async Task<List<CartaPokemonDbo>> SaveImagesToDatabase(List<IFormFile> files)
-        {
-            if (files == null || files.Count == 0)
-            {
-                throw new ArgumentException("Nenhum arquivo enviado.");
-            }
-
-            try
-            {
-                var validFileTypes = new[] { ".jpg", ".png", ".jpeg" };
-                foreach (var file in files)
-                {
-                    var fileType = Path.GetExtension(file.FileName);
-                    if (!validFileTypes.Contains(fileType, StringComparer.OrdinalIgnoreCase))
-                    {
-                        throw new Exception($"Tipo de arquivo não suportado: {fileType}. Apenas imagens (.jpg, .png, .jpeg) são permitidas.");
-                    }
-
-                    if (file.Length == 0)
-                    {
-                        throw new ArgumentException($"O arquivo {file.FileName} está vazio.");
-                    }
-                }
-
-                // Chama o repositório para salvar as imagens
-                var cartas = await _cartaPokemonRepository.SaveImagesToDatabase(files);
-
-                // Converte de CartaPokemon para CartaPokemonDbo
-                return cartas.Select(carta => new CartaPokemonDbo
-                {
-                    Id = carta.Id,
-                    NomeVersao = carta.NomeVersao,
-                    Versao = carta.Versao,
-                    NumeroCarta = carta.NumeroCarta,
-                    NomePokemon = carta.NomePokemon,
-                    Raridade = carta.Raridade,
-                    Tipo = carta.Tipo,
-                    HP = carta.HP,
-                    Estagio = carta.Estagio,
-                    Booster = carta.Booster,
-                    Imagem = carta.Imagem
-                }).ToList();
-            }
-            catch (ArgumentException ex)
-            {
-                throw new ArgumentException($"Erro de validação: {ex.Message}", ex);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Erro ao salvar imagens no banco de dados: {ex.Message}", ex);
-            }
-        }
-    }
+    }     
 }

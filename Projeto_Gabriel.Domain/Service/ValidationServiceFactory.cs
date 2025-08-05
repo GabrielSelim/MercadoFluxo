@@ -1,9 +1,5 @@
 ﻿using Projeto_Gabriel.Domain.Entity;
-using Projeto_Gabriel.Domain.Entity.Contatos;
-using Projeto_Gabriel.Domain.Entity.Financas;
 using Projeto_Gabriel.Domain.Entity.Logas;
-using Projeto_Gabriel.Domain.Service.Contatos;
-using Projeto_Gabriel.Domain.Service.Financas;
 using Projeto_Gabriel.Domain.Service.Logas;
 using Projeto_Gabriel.Domain.ServiceInterface;
 
